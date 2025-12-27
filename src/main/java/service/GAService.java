@@ -21,7 +21,10 @@ public class GAService {
             System.out. println("   Generations: " + result.getGenerationsExecuted());
             System.out. println("   Time: " + result.getExecutionTimeSeconds() + "s");
             System.out. println("   Hard violations: " + result.getBestChromosome().getHardConstraintViolations());
-        } else {
+        }
+        
+        
+        else {
             System.err.println("❌ GA failed!");
         }
         

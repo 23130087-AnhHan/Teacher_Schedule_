@@ -17,18 +17,17 @@ public class TimeSlot {
     private String periods;
     private LocalDateTime createdAt;
 
-    // Enums
+    // ===== ENUMS =====
     public enum DayOfWeek {
-        MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY
+        MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY, SUNDAY
     }
 
     public enum SessionType {
         MORNING, AFTERNOON
     }
 
-    // Constructors
-    public TimeSlot() {
-    }
+    // ===== CONSTRUCTORS =====
+    public TimeSlot() {}
 
     public TimeSlot(DayOfWeek dayOfWeek, int blockNumber, String blockName, 
                     LocalTime startTime, LocalTime endTime, SessionType sessionType, String periods) {
@@ -41,81 +40,39 @@ public class TimeSlot {
         this.periods = periods;
     }
 
-    // Getters and Setters
-    public int getSlotId() {
-        return slotId;
-    }
+    // ===== GETTERS & SETTERS =====
 
-    public void setSlotId(int slotId) {
-        this.slotId = slotId;
-    }
+    public int getSlotId() { return slotId; }
+    public void setSlotId(int slotId) { this.slotId = slotId; }
 
-    public DayOfWeek getDayOfWeek() {
-        return dayOfWeek;
-    }
+    public DayOfWeek getDayOfWeek() { return dayOfWeek; }
+    public void setDayOfWeek(DayOfWeek dayOfWeek) { this.dayOfWeek = dayOfWeek; }
 
-    public void setDayOfWeek(DayOfWeek dayOfWeek) {
-        this.dayOfWeek = dayOfWeek;
-    }
+    public int getBlockNumber() { return blockNumber; }
+    public void setBlockNumber(int blockNumber) { this.blockNumber = blockNumber; }
 
-    public int getBlockNumber() {
-        return blockNumber;
-    }
+    public String getBlockName() { return blockName; }
+    public void setBlockName(String blockName) { this.blockName = blockName; }
 
-    public void setBlockNumber(int blockNumber) {
-        this.blockNumber = blockNumber;
-    }
+    public LocalTime getStartTime() { return startTime; }
+    public void setStartTime(LocalTime startTime) { this.startTime = startTime; }
 
-    public String getBlockName() {
-        return blockName;
-    }
+    public LocalTime getEndTime() { return endTime; }
+    public void setEndTime(LocalTime endTime) { this.endTime = endTime; }
 
-    public void setBlockName(String blockName) {
-        this.blockName = blockName;
-    }
+    public SessionType getSessionType() { return sessionType; }
+    public void setSessionType(SessionType sessionType) { this.sessionType = sessionType; }
 
-    public LocalTime getStartTime() {
-        return startTime;
-    }
+    public String getPeriods() { return periods; }
+    public void setPeriods(String periods) { this.periods = periods; }
 
-    public void setStartTime(LocalTime startTime) {
-        this.startTime = startTime;
-    }
+    public LocalDateTime getCreatedAt() { return createdAt; }
+    public void setCreatedAt(LocalDateTime createdAt) { this.createdAt = createdAt; }
 
-    public LocalTime getEndTime() {
-        return endTime;
-    }
+    // ===== EXTRA HELPERS =====
 
-    public void setEndTime(LocalTime endTime) {
-        this.endTime = endTime;
-    }
-
-    public SessionType getSessionType() {
-        return sessionType;
-    }
-
-    public void setSessionType(SessionType sessionType) {
-        this.sessionType = sessionType;
-    }
-
-    public String getPeriods() {
-        return periods;
-    }
-
-    public void setPeriods(String periods) {
-        this.periods = periods;
-    }
-
-    public LocalDateTime getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(LocalDateTime createdAt) {
-        this.createdAt = createdAt;
-    }
-
-    // Helper methods
     public String getDisplayName() {
+        // Ví dụ: MONDAY - Ca 1 (07:00 - 09:35)
         return dayOfWeek + " - " + blockName + " (" + startTime + " - " + endTime + ")";
     }
 

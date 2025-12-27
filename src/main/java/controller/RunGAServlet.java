@@ -12,33 +12,44 @@ import java.io.IOException;
 
 @WebServlet("/run-ga")
 public class RunGAServlet extends HttpServlet {
-    
+
     private GAService gaService = new GAService();
-    
-    @Override  // ✅ THÊM DÒNG NÀY
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) 
+
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        // Show form
-        request. getRequestDispatcher("/views/run-ga. jsp").forward(request, response);
+        // Hiển thị form ban đầu (chưa có kết quả)
+        request.getRequestDispatcher("/views/run-ga.jsp").forward(request, response);
     }
+
     
-    @Override  // ✅ THÊM DÒNG NÀY
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) 
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
-        // Get parameters
+        System.out.println("Nhận POST /run-ga lúc " + new java.util.Date());
+
         String semester = request.getParameter("semester");
         String academicYear = request.getParameter("academicYear");
-        
-        // Run GA
+        if (semester == null || semester.isEmpty() || academicYear == null || academicYear.isEmpty()) {
+            request.setAttribute("error", "Chưa chọn học kỳ hoặc năm học!");
+            request.getRequestDispatcher("/views/run-ga.jsp").forward(request, response);
+            return;
+        }
+
         GAResult result = gaService.runGA(semester, academicYear);
-        
-        // Set result to request
-        request. setAttribute("result", result);
+        if (result == null) {
+            request.setAttribute("error", "Không thể chạy GA! Kiểm tra dữ liệu đầu vào hoặc lỗi thuật toán.");
+            request.getRequestDispatcher("/views/run-ga.jsp").forward(request, response);
+            return;
+        }
+
+        request.setAttribute("generations", result.getGenerationsExecuted());
+        request.setAttribute("fitness", result.getBestFitness());
+        request.setAttribute("hardViolations", result.getBestHardViolations());
+        request.setAttribute("softViolations", result.getBestSoftViolations());
+        request.setAttribute("scheduleCount", result.getScheduleCount());
         request.setAttribute("semester", semester);
         request.setAttribute("academicYear", academicYear);
-        
-        // Forward to result page
-        request.getRequestDispatcher("/views/ga-result.jsp").forward(request, response);
+
+        request.getRequestDispatcher("/views/run-ga.jsp").forward(request, response);
     }
 }

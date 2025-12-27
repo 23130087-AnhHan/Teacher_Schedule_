@@ -67,7 +67,7 @@ public class TeacherScheduleServlet extends HttpServlet {
         Map<String, Map<String, List<ScheduleDetailDTO>>> grid = new LinkedHashMap<>();
         
         String[] days = {"MONDAY", "TUESDAY", "WEDNESDAY", "THURSDAY", "FRIDAY", "SATURDAY"};
-        String[] blocks = {"Sáng 1", "Sáng 2", "Chiều 1", "Chiều 2"};
+        String[] blocks = {"Ca 1", "Ca 2", "Ca 3", "Ca 4"};
         
         // Khởi tạo grid rỗng
         for (String day : days) {
