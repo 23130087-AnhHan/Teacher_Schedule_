@@ -13,7 +13,7 @@ import java.util.List;
 public class TimeSlotDAO {
 
     /**
-     * Lấy tất cả time slots (24 slots)
+     * Lấy tất cả time slots (28 slots: 4 ca x 7 ngày)
      */
     public List<TimeSlot> getAllTimeSlots() {
         List<TimeSlot> timeSlots = new ArrayList<>();
@@ -22,13 +22,14 @@ public class TimeSlotDAO {
         ResultSet rs = null;
 
         try {
-            conn = JDBCUtils. getConnection();
-            String sql = "SELECT * FROM time_slots ORDER BY FIELD(day_of_week, 'MONDAY', 'TUESDAY', 'WEDNESDAY', 'THURSDAY', 'FRIDAY', 'SATURDAY'), block_number";
-            pstmt = conn. prepareStatement(sql);
+            conn = JDBCUtils.getConnection();
+            // Sửa: thêm 'SUNDAY' vào FIELD để bao gồm Chủ nhật và giữ thứ tự đúng
+            String sql = "SELECT * FROM time_slots ORDER BY FIELD(day_of_week, 'MONDAY', 'TUESDAY', 'WEDNESDAY', 'THURSDAY', 'FRIDAY', 'SATURDAY', 'SUNDAY'), block_number";
+            pstmt = conn.prepareStatement(sql);
             rs = pstmt.executeQuery();
 
             while (rs.next()) {
-                timeSlots. add(extractTimeSlotFromResultSet(rs));
+                timeSlots.add(extractTimeSlotFromResultSet(rs));
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -79,7 +80,7 @@ public class TimeSlotDAO {
             conn = JDBCUtils.getConnection();
             String sql = "SELECT * FROM time_slots WHERE day_of_week = ? ORDER BY block_number";
             pstmt = conn.prepareStatement(sql);
-            pstmt. setString(1, dayOfWeek.name());
+            pstmt.setString(1, dayOfWeek.name());
             rs = pstmt.executeQuery();
 
             while (rs.next()) {
@@ -88,7 +89,7 @@ public class TimeSlotDAO {
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            JDBCUtils. closeAll(conn, pstmt, rs);
+            JDBCUtils.closeAll(conn, pstmt, rs);
         }
 
         return timeSlots;
@@ -105,12 +106,12 @@ public class TimeSlotDAO {
 
         try {
             conn = JDBCUtils.getConnection();
-            String sql = "SELECT * FROM time_slots WHERE session_type = ?  ORDER BY day_of_week, block_number";
+            String sql = "SELECT * FROM time_slots WHERE session_type = ?  ORDER BY FIELD(day_of_week, 'MONDAY', 'TUESDAY', 'WEDNESDAY', 'THURSDAY', 'FRIDAY', 'SATURDAY', 'SUNDAY'), block_number";
             pstmt = conn.prepareStatement(sql);
             pstmt.setString(1, sessionType.name());
             rs = pstmt.executeQuery();
 
-            while (rs. next()) {
+            while (rs.next()) {
                 timeSlots.add(extractTimeSlotFromResultSet(rs));
             }
         } catch (SQLException e) {
@@ -163,7 +164,7 @@ public class TimeSlotDAO {
         timeSlot.setEndTime(rs.getTime("end_time").toLocalTime());
         timeSlot.setSessionType(TimeSlot.SessionType.valueOf(rs.getString("session_type")));
         timeSlot.setPeriods(rs.getString("periods"));
-        timeSlot.setCreatedAt(rs. getTimestamp("created_at").toLocalDateTime());
+        timeSlot.setCreatedAt(rs.getTimestamp("created_at").toLocalDateTime());
         return timeSlot;
     }
 }

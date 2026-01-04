@@ -75,9 +75,11 @@
 
         <% 
         if (teacherSchedules != null && ! teacherSchedules.isEmpty()) {
-            String[] days = {"MONDAY", "TUESDAY", "WEDNESDAY", "THURSDAY", "FRIDAY", "SATURDAY"};
-            String[] dayNames = {"Thứ 2", "Thứ 3", "Thứ 4", "Thứ 5", "Thứ 6", "Thứ 7"};
-            String[] blocks = {"Sáng 1", "Sáng 2", "Chiều 1", "Chiều 2"};
+            // Sửa: bao gồm Chủ nhật
+            String[] days = {"MONDAY", "TUESDAY", "WEDNESDAY", "THURSDAY", "FRIDAY", "SATURDAY", "SUNDAY"};
+            String[] dayNames = {"Thứ 2", "Thứ 3", "Thứ 4", "Thứ 5", "Thứ 6", "Thứ 7", "Chủ nhật"};
+            // Đồng bộ ca
+            String[] blocks = {"Ca 1", "Ca 2", "Ca 3", "Ca 4"};
             
             int teacherIndex = 1;
             for (Map.Entry<Teacher, Map<String, Map<String, List<ScheduleDetailDTO>>>> entry : teacherSchedules.entrySet()) {
@@ -113,7 +115,7 @@
                             <% 
                             for (String day :  days) {
                                 List<ScheduleDetailDTO> schedules = grid.get(day).get(block);
-                                boolean hasSchedule = schedules != null && !schedules. isEmpty();
+                                boolean hasSchedule = schedules != null && !schedules.isEmpty();
                             %>
                             <td class="schedule-cell <%= ! hasSchedule ? "empty-cell" : "" %>">
                                 <% 
@@ -157,6 +159,6 @@
         <% } %>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle. min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

@@ -2,8 +2,8 @@ package controller;
 
 import dao.TeacherDAO;
 import model.Teacher;
-import service. ScheduleService;
-import service. ScheduleDetailDTO;
+import service.ScheduleService;
+import service.ScheduleDetailDTO;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -32,7 +32,7 @@ public class TeacherScheduleServlet extends HttpServlet {
         if (academicYear == null) academicYear = "2025-2026";
         
         // Lấy tất cả giáo viên
-        List<Teacher> allTeachers = teacherDAO. getAllTeachers();
+        List<Teacher> allTeachers = teacherDAO.getAllTeachers();
         
         // Tạo Map:  teacherId -> Lịch tuần của GV đó
         Map<Teacher, Map<String, Map<String, List<ScheduleDetailDTO>>>> teacherSchedules = new LinkedHashMap<>();
@@ -66,7 +66,9 @@ public class TeacherScheduleServlet extends HttpServlet {
     private Map<String, Map<String, List<ScheduleDetailDTO>>> createWeeklyGrid(List<ScheduleDetailDTO> schedules) {
         Map<String, Map<String, List<ScheduleDetailDTO>>> grid = new LinkedHashMap<>();
         
-        String[] days = {"MONDAY", "TUESDAY", "WEDNESDAY", "THURSDAY", "FRIDAY", "SATURDAY"};
+        // Sửa: thêm SUNDAY
+        String[] days = {"MONDAY", "TUESDAY", "WEDNESDAY", "THURSDAY", "FRIDAY", "SATURDAY", "SUNDAY"};
+        // Đồng bộ block names với DB (Ca 1..Ca 4)
         String[] blocks = {"Ca 1", "Ca 2", "Ca 3", "Ca 4"};
         
         // Khởi tạo grid rỗng

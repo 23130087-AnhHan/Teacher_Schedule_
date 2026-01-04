@@ -40,7 +40,8 @@ public class ScheduleService {
 
         List<ScheduleDetailDTO> allSchedules = getScheduleDetails(semester, academicYear);
 
-        String[] days = {"MONDAY", "TUESDAY", "WEDNESDAY", "THURSDAY", "FRIDAY", "SATURDAY"};
+        // Sửa: bao gồm SUNDAY
+        String[] days = {"MONDAY", "TUESDAY", "WEDNESDAY", "THURSDAY", "FRIDAY", "SATURDAY", "SUNDAY"};
         String[] blocks = {"Ca 1", "Ca 2", "Ca 3", "Ca 4"};
 
         for (String day : days) {
@@ -77,8 +78,9 @@ public class ScheduleService {
         Map<String, Map<String, List<ScheduleDetailDTO>>> grid = new LinkedHashMap<>();
         List<ScheduleDetailDTO> schedules = getScheduleByTeacher(teacherId, semester, academicYear);
 
-        String[] days = {"MONDAY", "TUESDAY", "WEDNESDAY", "THURSDAY", "FRIDAY", "SATURDAY"};
-        String[] blocks = {"Sáng 1", "Sáng 2", "Chiều 1", "Chiều 2"};
+        // Sửa: bao gồm SUNDAY và dùng block names đúng ("Ca 1".."Ca 4")
+        String[] days = {"MONDAY", "TUESDAY", "WEDNESDAY", "THURSDAY", "FRIDAY", "SATURDAY", "SUNDAY"};
+        String[] blocks = {"Ca 1", "Ca 2", "Ca 3", "Ca 4"};
 
         for (String day : days) {
             Map<String, List<ScheduleDetailDTO>> daySchedules = new LinkedHashMap<>();
@@ -165,4 +167,4 @@ public class ScheduleService {
         }
         return details;
     }
-}	
+}
