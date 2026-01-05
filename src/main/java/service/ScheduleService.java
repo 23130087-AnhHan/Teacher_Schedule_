@@ -33,35 +33,6 @@ public class ScheduleService {
         return convertToDetails(schedules);
     }
 
-    /** Lấy lịch dạng bảng tuần cho toàn trường */
-    public Map<String, Map<String, List<ScheduleDetailDTO>>> getWeeklyScheduleGrid(String semester, String academicYear) {
-        // Map<DayOfWeek, Map<BlockName, List<ScheduleDetailDTO>>>
-        Map<String, Map<String, List<ScheduleDetailDTO>>> grid = new LinkedHashMap<>();
-
-        List<ScheduleDetailDTO> allSchedules = getScheduleDetails(semester, academicYear);
-
-        // Sửa: bao gồm SUNDAY
-        String[] days = {"MONDAY", "TUESDAY", "WEDNESDAY", "THURSDAY", "FRIDAY", "SATURDAY", "SUNDAY"};
-        String[] blocks = {"Ca 1", "Ca 2", "Ca 3", "Ca 4"};
-
-        for (String day : days) {
-            Map<String, List<ScheduleDetailDTO>> daySchedules = new LinkedHashMap<>();
-            for (String block : blocks) {
-                daySchedules.put(block, new ArrayList<>());
-            }
-            grid.put(day, daySchedules);
-        }
-
-        for (ScheduleDetailDTO dto : allSchedules) {
-            String day = dto.getDayOfWeek();
-            String block = dto.getBlockName();
-            if (grid.containsKey(day) && grid.get(day).containsKey(block)) {
-                grid.get(day).get(block).add(dto);
-            }
-        }
-        return grid;
-    }
-
     /** Lấy lịch của tất cả giáo viên */
     public List<Teacher> getAllTeachers() {
         return teacherDAO.getAllTeachers();
@@ -71,35 +42,6 @@ public class ScheduleService {
     public List<ScheduleDetailDTO> getScheduleByTeacher(int teacherId, String semester, String academicYear) {
         List<Schedule> schedules = scheduleDAO.getSchedulesByTeacher(teacherId, semester, academicYear);
         return convertToDetails(schedules);
-    }
-
-    /** Lấy lịch dạng bảng tuần cho một giáo viên */
-    public Map<String, Map<String, List<ScheduleDetailDTO>>> getTeacherWeeklyGrid(int teacherId, String semester, String academicYear) {
-        Map<String, Map<String, List<ScheduleDetailDTO>>> grid = new LinkedHashMap<>();
-        List<ScheduleDetailDTO> schedules = getScheduleByTeacher(teacherId, semester, academicYear);
-
-        // Sửa: bao gồm SUNDAY và dùng block names đúng ("Ca 1".."Ca 4")
-        String[] days = {"MONDAY", "TUESDAY", "WEDNESDAY", "THURSDAY", "FRIDAY", "SATURDAY", "SUNDAY"};
-        String[] blocks = {"Ca 1", "Ca 2", "Ca 3", "Ca 4"};
-
-        for (String day : days) {
-            Map<String, List<ScheduleDetailDTO>> daySchedules = new LinkedHashMap<>();
-            for (String block : blocks) {
-                daySchedules.put(block, new ArrayList<>());
-            }
-            grid.put(day, daySchedules);
-        }
-
-        for (ScheduleDetailDTO dto : schedules) {
-            String day = dto.getDayOfWeek();
-            String block = dto.getBlockName();
-
-            if (grid.containsKey(day) && grid.get(day).containsKey(block)) {
-                grid.get(day).get(block).add(dto);
-            }
-        }
-
-        return grid;
     }
 
     /** Lấy lịch của một phòng học */

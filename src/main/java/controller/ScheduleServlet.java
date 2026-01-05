@@ -3,7 +3,6 @@ package controller;
 import service.ScheduleService;
 import service.ScheduleDetailDTO;
 
-
 import java.io.IOException;
 import java.util.List;
 
@@ -37,9 +36,6 @@ public class ScheduleServlet extends HttpServlet {
                 break;
             case "room": 
                 showScheduleByRoom(request, response, semester, academicYear);
-                break;
-            case "weekly":
-                showWeeklySchedule(request, response, semester, academicYear);
                 break;
             default:
                 showScheduleList(request, response, semester, academicYear);
@@ -82,20 +78,7 @@ public class ScheduleServlet extends HttpServlet {
         request.setAttribute("schedules", schedules);
         request.setAttribute("roomId", roomId);
         
-        request.getRequestDispatcher("/views/schedule-room. jsp").forward(request, response);
-    }
-    
-    private void showWeeklySchedule(HttpServletRequest request, HttpServletResponse response,
-                                     String semester, String academicYear) 
-            throws ServletException, IOException {
-        
-        var grid = scheduleService.getWeeklyScheduleGrid(semester, academicYear);
-        
-        request.setAttribute("scheduleGrid", grid);
-        request.setAttribute("semester", semester);
-        request.setAttribute("academicYear", academicYear);
-        
-        request.getRequestDispatcher("/views/schedule-weekly.jsp").forward(request, response);
+        request.getRequestDispatcher("/views/schedule-room.jsp").forward(request, response);
     }
     
 }
