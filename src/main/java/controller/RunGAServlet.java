@@ -7,6 +7,8 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+//xử lý logic của việc chạy thuật toán di truyền  để tạo ra một lịch trình dạy học tối ưu cho một học kỳ cụ thể. 
+//Servlet này tương tác với tầng service (GAService) để thực thi thuật toán GA và gửi kết quả đến giao diện người dùng (JSP).
 
 import java.io.IOException;
 

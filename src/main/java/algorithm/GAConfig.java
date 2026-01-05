@@ -36,7 +36,6 @@ public class GAConfig {
     public static final int MAX_EMPTY_SLOTS_PER_TEACHER = 3;    // ngưỡng mặc định (tune được)
     public static final double WEIGHT_TEACHER_EMPTY_SLOTS = -20.0; // phạt mỗi ca trống vượt quá (tune)
 
-    // NEW: penalty cho giáo viên dạy quá nhiều ngày trong tuần (soft constraint)
     // Nếu một giáo viên được phân công trên MAX_DAYS_PER_TEACHER ngày -> mỗi ngày vượt quá bị phạt WEIGHT_TEACHER_TOO_MANY_DAYS_PENALTY
     public static final int MAX_DAYS_PER_TEACHER = 4; // nếu dạy >4 ngày thì bị phạt
     public static final double WEIGHT_TEACHER_TOO_MANY_DAYS_PENALTY = -40.0; // phạt mỗi ngày vượt quá (tune)
@@ -47,6 +46,7 @@ public class GAConfig {
     
     // Default max hours (fallback)
     public static final int DEFAULT_MAX_TEACHING_HOURS = 18;
+    
     
     private GAConfig() {
         // Private constructor to prevent instantiation

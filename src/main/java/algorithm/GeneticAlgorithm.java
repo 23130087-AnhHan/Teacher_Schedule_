@@ -294,7 +294,7 @@ public class GeneticAlgorithm {
                 continue;
             }
             if (assignment.isPractice() && assignment.isRequiresLab()) {
-                if (room.isLab()) suitable.add(room);
+                if (room.isLab()) suitable.add(room);	
             } else if (assignment.isTheory()) {
                 if (!room.isLab()) suitable.add(room);
             }

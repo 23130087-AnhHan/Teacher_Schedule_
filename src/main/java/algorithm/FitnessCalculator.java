@@ -16,7 +16,7 @@ public class FitnessCalculator {
     }
     
     /**
-     * Tính fitness score cho một chromosome
+     * Tính fitness score cho một chromosome	
      * @return fitness score (càng cao càng tốt)
      */
     public double calculateFitness(Chromosome chromosome, 
@@ -31,27 +31,27 @@ public class FitnessCalculator {
         double fitness = 0.0;
         
         // 1. HARD CONSTRAINTS (vi phạm trừ điểm nặng)
-        fitness += result.getTeacherConflicts() * GAConfig.WEIGHT_TEACHER_CONFLICT;
-        fitness += result.getRoomConflicts() * GAConfig.WEIGHT_ROOM_CONFLICT;
-        fitness += result.getTeacherSubjectMismatches() * GAConfig.WEIGHT_TEACHER_SUBJECT_MISMATCH;
-        fitness += result.getRoomCapacityViolations() * GAConfig.WEIGHT_ROOM_CAPACITY_EXCEEDED;
+        fitness += result.getTeacherConflicts() * GAConfig.WEIGHT_TEACHER_CONFLICT;// giáo viên dạy 2 lớp cùng giờ
+        fitness += result.getRoomConflicts() * GAConfig.WEIGHT_ROOM_CONFLICT;//1 phòng có 2 lớp
+        fitness += result.getTeacherSubjectMismatches() * GAConfig.WEIGHT_TEACHER_SUBJECT_MISMATCH;//dạy không đúng môn
+        fitness += result.getRoomCapacityViolations() * GAConfig.WEIGHT_ROOM_CAPACITY_EXCEEDED;// phòng không đủ chỗ
         // NOTE: ROOM_TYPE_MISMATCH is treated as SOFT (moved below)
         
         // 2. SOFT CONSTRAINTS (vi phạm trừ điểm nhẹ)
-        fitness += result.getMaxHoursViolations() * GAConfig.WEIGHT_MAX_HOURS_EXCEEDED;
-        fitness += result.getRoomUtilizationPenalties() * GAConfig.WEIGHT_ROOM_UTILIZATION_POOR;
+        fitness += result.getMaxHoursViolations() * GAConfig.WEIGHT_MAX_HOURS_EXCEEDED;//vượt quá số giờ dạy của giáo viên
+        fitness += result.getRoomUtilizationPenalties() * GAConfig.WEIGHT_ROOM_UTILIZATION_POOR;//phòng dùng không hiệu quả
 
         // room type mismatches (soft)
-        fitness += result.getRoomTypeMismatches() * GAConfig.WEIGHT_ROOM_TYPE_MISMATCH;
+        fitness += result.getRoomTypeMismatches() * GAConfig.WEIGHT_ROOM_TYPE_MISMATCH;//phòng học không đúng loại
         
         // teacher empty slot penalties
-        fitness += result.getTeacherEmptySlotPenalties() * GAConfig.WEIGHT_TEACHER_EMPTY_SLOTS;
+        fitness += result.getTeacherEmptySlotPenalties() * GAConfig.WEIGHT_TEACHER_EMPTY_SLOTS;// có ít ca trống 
         
         // NEW: penalty for teaching too many days
-        fitness += result.getTeacherTooManyDaysPenalties() * GAConfig.WEIGHT_TEACHER_TOO_MANY_DAYS_PENALTY;
+        fitness += result.getTeacherTooManyDaysPenalties() * GAConfig.WEIGHT_TEACHER_TOO_MANY_DAYS_PENALTY; // dạy quá nhiều ngày
         
         // 3.  BONUSES (thưởng điểm)
-        fitness += result.getRoomUtilizationBonuses() * GAConfig.WEIGHT_ROOM_UTILIZATION_OPTIMAL;
+        fitness += result.getRoomUtilizationBonuses() * GAConfig.WEIGHT_ROOM_UTILIZATION_OPTIMAL;// sử dụng phòng tối ưu
         
         // 4. BASE SCORE (điểm cơ bản nếu không vi phạm)
         if (result.isValid()) {

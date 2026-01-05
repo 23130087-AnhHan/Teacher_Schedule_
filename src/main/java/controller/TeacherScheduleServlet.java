@@ -13,7 +13,8 @@ import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
 import java.util.*;
-
+//Servlet xử lý các yêu cầu HTTP liên quan đến việc hiển thị lịch dạy chi tiết (theo dạng bảng tuần) của các giáo viên. 
+//Nó tương tác với ScheduleService để xử lý logic nghiệp vụ và truyền dữ liệu đến giao diện người dùng (JSP).
 @WebServlet("/teacher-schedule")
 public class TeacherScheduleServlet extends HttpServlet {
     

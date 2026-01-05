@@ -11,6 +11,8 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+//óng vai trò trung gian xử lý các yêu cầu HTTP liên quan đến lịch giảng dạy. 
+//Nó tương tác với tầngservice(ScheduleService)để lấy dữ liệu lịch trình,sau đó truyền dữ liệu đến các file JSP để hiển thị UI
 
 @WebServlet("/schedule")
 public class ScheduleServlet extends HttpServlet {

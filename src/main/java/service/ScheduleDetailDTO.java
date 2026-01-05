@@ -89,6 +89,7 @@ public class ScheduleDetailDTO {
     /**
      * Hiệu quả: true nếu là thực hành, false nếu là lý thuyết
      */
+    
     public boolean isPractice() {
         return assignmentType != null && assignmentType.equalsIgnoreCase("PRACTICE");
     }
@@ -111,4 +112,4 @@ public class ScheduleDetailDTO {
     public String toString() {
         return getDisplayString();
     }
-}
+}	

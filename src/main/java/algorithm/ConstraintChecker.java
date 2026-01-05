@@ -49,14 +49,14 @@ public class ConstraintChecker {
         
         checkTeacherConflicts(chromosome, result);
         checkRoomConflicts(chromosome, result);
-        checkTeacherSubjectMatch(chromosome, result);
+        checkTeacherSubjectMatch(chromosome, result);//giáo viên không có chuyên môn
         checkRoomCapacity(chromosome, result);
         checkRoomType(chromosome, result);
         checkMaxTeachingHours(chromosome, teachers, result);
-        evaluateRoomUtilization(chromosome, result);
+        evaluateRoomUtilization(chromosome, result);// sử dụng phòng kém hiệu quả
 
         // Soft constraints
-        evaluateTeacherEmptySlots(chromosome, teachers, timeSlots, result);
+        evaluateTeacherEmptySlots(chromosome, teachers, timeSlots, result);// nhiều ca trống
         evaluateTeacherTooManyDays(chromosome, teachers, timeSlots, result); // NEW: penalty if teacher teaches > MAX_DAYS_PER_TEACHER
         
         return result;
