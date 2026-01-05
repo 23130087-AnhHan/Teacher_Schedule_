@@ -12,7 +12,7 @@ public class TeacherPreference {
     private Integer unavailableSlotId;  // Nullable - slot không thể dạy
     private TimeSlot. SessionType preferredSession;  // Nullable
     private TimeSlot.DayOfWeek preferredDay;  // Nullable
-    private double weight;
+    private double weight;// trọng số ưu tiên
     private String notes;
     private LocalDateTime createdAt;
 

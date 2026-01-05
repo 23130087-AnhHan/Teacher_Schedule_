@@ -31,10 +31,22 @@ public class GAConfig {
     public static final double WEIGHT_ROOM_UTILIZATION_OPTIMAL = 100.0; // Thưởng nếu phòng vừa đủ
     public static final double WEIGHT_ROOM_UTILIZATION_POOR = -50.0;    // Phạt nếu lãng phí
     public static final double WEIGHT_TEACHER_PREFERENCE = 20.0;        // Thưởng nếu đúng sở thích
-    
+
+    // Penalty cho gaps (như trước)
+    public static final int MAX_EMPTY_SLOTS_PER_TEACHER = 3;    // ngưỡng mặc định (tune được)
+    public static final double WEIGHT_TEACHER_EMPTY_SLOTS = -20.0; // phạt mỗi ca trống vượt quá (tune)
+
+    // NEW: penalty cho giáo viên dạy quá nhiều ngày trong tuần (soft constraint)
+    // Nếu một giáo viên được phân công trên MAX_DAYS_PER_TEACHER ngày -> mỗi ngày vượt quá bị phạt WEIGHT_TEACHER_TOO_MANY_DAYS_PENALTY
+    public static final int MAX_DAYS_PER_TEACHER = 4; // nếu dạy >4 ngày thì bị phạt
+    public static final double WEIGHT_TEACHER_TOO_MANY_DAYS_PENALTY = -40.0; // phạt mỗi ngày vượt quá (tune)
+
     // Debugging
     public static final boolean DEBUG_MODE = true;          // In log chi tiết
     public static final int PRINT_EVERY_N_GENERATIONS = 10; // In progress mỗi 10 thế hệ
+    
+    // Default max hours (fallback)
+    public static final int DEFAULT_MAX_TEACHING_HOURS = 18;
     
     private GAConfig() {
         // Private constructor to prevent instantiation

@@ -1,7 +1,7 @@
 package algorithm;
 
 import model.*;
-import java.util. List;
+import java.util.List;
 
 /**
  * Tính fitness score cho chromosome
@@ -31,15 +31,24 @@ public class FitnessCalculator {
         double fitness = 0.0;
         
         // 1. HARD CONSTRAINTS (vi phạm trừ điểm nặng)
-        fitness += result. getTeacherConflicts() * GAConfig.WEIGHT_TEACHER_CONFLICT;
+        fitness += result.getTeacherConflicts() * GAConfig.WEIGHT_TEACHER_CONFLICT;
         fitness += result.getRoomConflicts() * GAConfig.WEIGHT_ROOM_CONFLICT;
         fitness += result.getTeacherSubjectMismatches() * GAConfig.WEIGHT_TEACHER_SUBJECT_MISMATCH;
         fitness += result.getRoomCapacityViolations() * GAConfig.WEIGHT_ROOM_CAPACITY_EXCEEDED;
-        fitness += result.getRoomTypeMismatches() * GAConfig.WEIGHT_ROOM_TYPE_MISMATCH;
+        // NOTE: ROOM_TYPE_MISMATCH is treated as SOFT (moved below)
         
         // 2. SOFT CONSTRAINTS (vi phạm trừ điểm nhẹ)
         fitness += result.getMaxHoursViolations() * GAConfig.WEIGHT_MAX_HOURS_EXCEEDED;
         fitness += result.getRoomUtilizationPenalties() * GAConfig.WEIGHT_ROOM_UTILIZATION_POOR;
+
+        // room type mismatches (soft)
+        fitness += result.getRoomTypeMismatches() * GAConfig.WEIGHT_ROOM_TYPE_MISMATCH;
+        
+        // teacher empty slot penalties
+        fitness += result.getTeacherEmptySlotPenalties() * GAConfig.WEIGHT_TEACHER_EMPTY_SLOTS;
+        
+        // NEW: penalty for teaching too many days
+        fitness += result.getTeacherTooManyDaysPenalties() * GAConfig.WEIGHT_TEACHER_TOO_MANY_DAYS_PENALTY;
         
         // 3.  BONUSES (thưởng điểm)
         fitness += result.getRoomUtilizationBonuses() * GAConfig.WEIGHT_ROOM_UTILIZATION_OPTIMAL;
