@@ -7,8 +7,6 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-//xử lý logic của việc chạy thuật toán di truyền  để tạo ra một lịch trình dạy học tối ưu cho một học kỳ cụ thể. 
-//Servlet này tương tác với tầng service (GAService) để thực thi thuật toán GA và gửi kết quả đến giao diện người dùng (JSP).
 
 import java.io.IOException;
 
@@ -24,7 +22,7 @@ public class RunGAServlet extends HttpServlet {
         request.getRequestDispatcher("/views/run-ga.jsp").forward(request, response);
     }
 
-    
+    @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         System.out.println("Nhận POST /run-ga lúc " + new java.util.Date());
@@ -44,6 +42,7 @@ public class RunGAServlet extends HttpServlet {
             return;
         }
 
+        // Thống kê cho view
         request.setAttribute("generations", result.getGenerationsExecuted());
         request.setAttribute("fitness", result.getBestFitness());
         request.setAttribute("hardViolations", result.getBestHardViolations());
@@ -52,6 +51,7 @@ public class RunGAServlet extends HttpServlet {
         request.setAttribute("semester", semester);
         request.setAttribute("academicYear", academicYear);
 
+        // Không còn nút "Chạy tiếp" – chạy tự động đến khi dừng
         request.getRequestDispatcher("/views/run-ga.jsp").forward(request, response);
     }
 }

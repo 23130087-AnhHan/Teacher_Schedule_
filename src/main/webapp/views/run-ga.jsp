@@ -2,14 +2,12 @@
 <%
     String contextPath = request.getContextPath();
 
-    // Lấy các tham số hoặc attributes từ backend (không dùng gaResult nữa)
     Integer generations = (Integer) request.getAttribute("generations");
     Double fitness = (Double) request.getAttribute("fitness");
     Integer hardViolations = (Integer) request.getAttribute("hardViolations");
     Integer softViolations = (Integer) request.getAttribute("softViolations");
     Integer scheduleCount = (Integer) request.getAttribute("scheduleCount");
 
-    // Lấy học kỳ và năm học cho form hoặc truy cập/gán lại nếu cần
     String semesterShow = request.getParameter("semester");
     if (semesterShow == null) semesterShow = (String) request.getAttribute("semester");
     if (semesterShow == null) semesterShow = "HK1";
@@ -41,7 +39,7 @@
                     </div>
                     <div class="card-body">
                         <% if (generations == null) { %>
-                        <!-- Nếu chưa chạy: hiện form lựa chọn -->
+                        <!-- Form khởi chạy: GA sẽ tự chạy đến khi tối ưu/dừng -->
                         <form method="POST" action="<%= contextPath %>/run-ga">
                             <div class="mb-3">
                                 <label class="form-label">Học kỳ</label>
@@ -57,14 +55,15 @@
                                        value="<%= academicYearShow %>" required>
                             </div>
                             <div class="alert alert-info">
-                                <strong>📝 Lưu ý:</strong> Thuật toán sẽ xóa lịch cũ và tạo lịch mới!
+                                <strong>📝 Lưu ý:</strong> GA sẽ tự động tiến hóa (lai ghép/đột biến) và in tiến trình ra console từng thế hệ.
+                                Sau khi kết thúc, giao diện hiển thị thống kê của lịch tối ưu nhất và bạn có thể xem lịch chi tiết.
                             </div>
                             <button type="submit" class="btn btn-primary w-100">
                                 🚀 Chạy Thuật Toán
                             </button>
                         </form>
                         <% } else { %>
-                        <!-- Nếu đã chạy xong GA: Hiện bảng thống kê và nút chạy lại -->
+                        <!-- Kết quả cuối cùng -->
                         <% if (hardViolations != null && hardViolations > 0) { %>
                         <div class="alert alert-warning mb-3">
                             <strong>⚠️ Có Vi Phạm</strong><br>
@@ -78,45 +77,16 @@
 
                         <div class="mb-3">
                             <table class="table table-bordered">
-                                <tr>
-                                    <th>Số lịch đã tạo</th>
-                                    <td><%= scheduleCount != null ? scheduleCount : 0 %></td>
-                                </tr>
-                                <tr>
-                                    <th>Học kỳ</th>
-                                    <td><%= semesterShow %></td>
-                                </tr>
-                                <tr>
-                                    <th>Năm học</th>
-                                    <td><%= academicYearShow %></td>
-                                </tr>
-                                <tr>
-                                    <th>Số thế hệ</th>
-                                    <td><%= generations != null ? generations : 0 %></td>
-                                </tr>
-                                <tr>
-                                    <th>Fitness tốt nhất</th>
-                                    <td><%= fitness != null ? fitness : 0 %></td>
-                                </tr>
-                                <tr>
-                                    <th>Hard violations</th>
-                                    <td><%= hardViolations != null ? hardViolations : 0 %></td>
-                                </tr>
-                                <tr>
-                                    <th>Soft violations</th>
-                                    <td><%= softViolations != null ? softViolations : 0 %></td>
-                                </tr>
+                                <tr><th>Số lịch đã tạo</th><td><%= scheduleCount != null ? scheduleCount : 0 %></td></tr>
+                                <tr><th>Học kỳ</th><td><%= semesterShow %></td></tr>
+                                <tr><th>Năm học</th><td><%= academicYearShow %></td></tr>
+                                <tr><th>Số thế hệ</th><td><%= generations != null ? generations : 0 %></td></tr>
+                                <tr><th>Fitness tốt nhất</th><td><%= fitness != null ? fitness : 0 %></td></tr>
+                                <tr><th>Hard violations</th><td><%= hardViolations != null ? hardViolations : 0 %></td></tr>
+                                <tr><th>Soft violations</th><td><%= softViolations != null ? softViolations : 0 %></td></tr>
                             </table>
                         </div>
 
-                        <!-- Nút chạy lại Thuật toán: LUÔN LUÔN HIỆN khi có kết quả! -->
-                        <form method="POST" action="<%= contextPath %>/run-ga">
-                            <input type="hidden" name="semester" value="<%= semesterShow %>"/>
-                            <input type="hidden" name="academicYear" value="<%= academicYearShow %>"/>
-                            <button type="submit" class="btn btn-danger w-100 mb-2">
-                                🔄 Chạy lại Thuật toán
-                            </button>
-                        </form>
                         <a href="<%= contextPath %>/schedule-list?semester=<%= semesterShow %>&academicYear=<%= academicYearShow %>"
                            class="btn btn-success w-100 mt-1">
                             📅 Xem Lịch Vừa Tạo
